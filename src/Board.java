@@ -72,6 +72,19 @@ public class Board {
         }
     }
 
+    public int getValue(){
+        if(this.checkWin() == 'x'){
+            return 100;
+        }
+        else if(this.checkWin() == 'o'){
+            return -100;
+        }
+        else{
+            //do eval
+            return 0;
+        }
+    }
+
 
 
 

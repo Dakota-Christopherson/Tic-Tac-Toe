@@ -22,6 +22,7 @@ public class Main {
 
         while(board1.checkWin() == '-' && twoPlayer){
             board1.print();
+
             System.out.println("Where would you like to play?");
             move = scan.nextLine();
             while(!board1.validMove(Character.getNumericValue(move.charAt(0)), Character.getNumericValue(move.charAt(1)))){
@@ -40,8 +41,8 @@ public class Main {
         }
 
 
-
-        while(board1.checkWin() != '-' && !twoPlayer){
+        AI ai = new AI(board1);
+        while(board1.checkWin() == '-' && !twoPlayer){
             board1.print();
             System.out.println("Where would you like to play?");
             move = scan.nextLine();
@@ -51,9 +52,11 @@ public class Main {
                 move = scan.nextLine();
             }
             board1.move(Character.getNumericValue(move.charAt(0)), Character.getNumericValue(move.charAt(1)), player);
-
+            System.out.println(ai.miniMax(board1,100,true));
 
         }
+        board1.print();
+        System.out.println(board1.checkWin() + " wins!");
     }
 
 }
