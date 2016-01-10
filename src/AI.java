@@ -1,11 +1,13 @@
+import com.sun.org.apache.xpath.internal.SourceTree;
+
 import java.util.ArrayList;
 
 /**
  * Created by Cody on 12/23/2015.
  */
 public class AI {
-<<<<<<< HEAD
     private Board board = new Board();
+    private char aiPlayer;
 
     public AI(Board board) {
         this.board = board;
@@ -17,63 +19,50 @@ public class AI {
 
     public int miniMax(Board board3, int depth, boolean maximizingPlayer) {
         if (depth == 0 || board3.checkWin() != '-') {
-            return board3.getValue();
+           return board3.getValue();
         }
         if (maximizingPlayer) {
             int bestValue = Integer.MIN_VALUE;
             ArrayList moveList = board3.getMoves();
             for (int i = 0; i < moveList.size(); i++) {
-                Board placeholder = board3;
-                placeholder.move(Character.getNumericValue(((String) moveList.get(i)).charAt(0)), Character.getNumericValue(((String) moveList.get(i)).charAt(1)), 'x');
+                Board placeholder = board3.copy();
+                placeholder.move(Character.getNumericValue(((String) moveList.get(i)).charAt(0)), Character.getNumericValue(((String) moveList.get(i)).charAt(1)), 'O');
                 int v = miniMax(placeholder, depth - 1, false);
-                bestValue = Math.max(bestValue,v);
+                bestValue = Math.max(bestValue, v);
             }
             return bestValue;
-        }
-        else /*minimizing player*/ {
+        } else /*minimizing player*/ {
             int bestValue = Integer.MAX_VALUE;
             ArrayList moveList = board3.getMoves();
             for (int i = 0; i < moveList.size(); i++) {
-                Board placeholder = board3;
-                placeholder.move(Character.getNumericValue(((String) moveList.get(i)).charAt(0)), Character.getNumericValue(((String) moveList.get(i)).charAt(1)), 'o');
+                Board placeholder = board3.copy();
+                placeholder.move(Character.getNumericValue(((String) moveList.get(i)).charAt(0)), Character.getNumericValue(((String) moveList.get(i)).charAt(1)), 'X');
                 int v = miniMax(placeholder, depth - 1, true);
-                bestValue = Math.min(bestValue,v);
+                bestValue = Math.min(bestValue, v);
             }
             return bestValue;
-=======
-    Board staticBoard;
-    char player;
 
-    public AI(char player) {
-        this.player = player;
+        }
     }
-
-    public String miniMax(Board board, char player) {
+    public void aiMove(Board board){
         ArrayList moveList = board.getMoves();
-        this.staticBoard = board;
-        if (board.checkWin() != '-') {
-            
+        Integer[] moveScores = new Integer[moveList.size()];
+        for(int x = 0; x < moveList.size(); x++){
+            Board placeholder = board.copy();
+            placeholder.move(Character.getNumericValue(((String) moveList.get(x)).charAt(0)), Character.getNumericValue(((String) moveList.get(x)).charAt(1)), 'O');
+            moveScores[x] = miniMax(placeholder, moveList.size()-1, false);
         }
-
-        else {
-
-
-            for (int i = 0; i < moveList.size(); i++) {
-                Board dynaBoard = staticBoard;
-                String move = (String) moveList.get(i);
-                dynaBoard.move(move.charAt(0), move.charAt(1), player);
-                if (player == 'X') {
-                    player = 'O';
-                } else {
-                    player = 'X';
-                }
-                miniMax(dynaBoard, player);
-
-
+        int index = 0;
+        System.out.println("Move List and Scores: ");
+        for(int y = 0; y < moveScores.length; y++){
+            if(moveScores[y] > moveScores[index]){
+                index = y;
             }
->>>>>>> 6421b7c22bee7a1298861df7f38f3160fabe5ed4
+
+            System.out.println(moveScores[y] + " " + moveList.get(y));
         }
+        System.out.println("Selected Move and Score: ");
+        System.out.println(moveScores[index] + " " + moveList.get(index));
+        board.move(Character.getNumericValue(((String) moveList.get(index)).charAt(0)), Character.getNumericValue(((String) moveList.get(index)).charAt(1)), 'O');
     }
 }
-
-

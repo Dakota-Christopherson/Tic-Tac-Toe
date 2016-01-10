@@ -42,7 +42,8 @@ public class Main {
 
 
         AI ai = new AI(board1);
-        while(board1.checkWin() == '-' && !twoPlayer){
+        //player = 'O';
+        while(board1.checkWin() == '-' && !twoPlayer && board1.getMoves().size() > 0){
             board1.print();
             System.out.println("Where would you like to play?");
             move = scan.nextLine();
@@ -52,8 +53,11 @@ public class Main {
                 move = scan.nextLine();
             }
             board1.move(Character.getNumericValue(move.charAt(0)), Character.getNumericValue(move.charAt(1)), player);
-            System.out.println(ai.miniMax(board1,100,true));
-
+            if(board1.getMoves().size() > 0) {
+                System.out.println("Minimax Eval: ");
+                System.out.println(ai.miniMax(board1, 100, true));
+                ai.aiMove(board1);
+            }
         }
         board1.print();
         System.out.println(board1.checkWin() + " wins!");

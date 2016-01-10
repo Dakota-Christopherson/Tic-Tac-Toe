@@ -42,7 +42,7 @@ public class Board {
             winner = board[0][0];
         }
         if(board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2] != '-'){
-            winner = board[0][0];
+            winner = board[0][2];
         }
         return winner;
     }
@@ -73,16 +73,24 @@ public class Board {
     }
 
     public int getValue(){
-        if(this.checkWin() == 'x'){
-            return 100;
-        }
-        else if(this.checkWin() == 'o'){
+        if(this.checkWin() == 'X'){
             return -100;
+        }
+        else if(this.checkWin() == 'O'){
+            return 100;
         }
         else{
             //do eval
             return 0;
         }
+    }
+
+    public Board copy(){
+        Board finalBoard = new Board();
+        for(int x = 0; x < this.board.length; x++){
+            finalBoard.board[x] = this.board[x].clone();
+        }
+        return finalBoard;
     }
 
 
